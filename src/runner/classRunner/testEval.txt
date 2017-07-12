@@ -1,0 +1,57 @@
+*********************  1  **********************
+class People {
+    height = 170
+    weight = 65
+    function change (nh, nw) {
+        height = nh;
+        weight = nw
+    }
+}
+p = People.new
+p.change(180, 75)
+p.height = 160
+print p.height + " & " +p.weight
+
+
+=> People
+=> <object:1768305536>
+=> 75
+=> 160
+160 & 75
+=> 0
+
+******************   2   ********************
+class People {
+    height = 170
+    weight = 65
+    function change (nh, nw) {
+        height = nh;
+        weight = nw
+    }
+}
+
+class People2 extends People{
+    sex = "man"
+    function set(h, w, s){
+        height = h;
+        weight = w;
+        sex = s
+    }
+}
+
+p = People2.new 
+p.change(0, 0)
+print p.height
+p.set(180, 77, "man")
+print p.height + " & " + p.sex
+ 
+ 
+=> People
+=> People2
+=> <object:1530388690>
+=> 0
+0
+=> 0
+=> man
+180 & man
+=> 0    

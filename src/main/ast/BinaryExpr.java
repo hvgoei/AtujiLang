@@ -2,7 +2,10 @@ package main.ast;
 import java.util.List;
 
 import main.basic.AtujiException;
+import main.basic.AtujiObject;
+import main.basic.AtujiObject.AccessException;
 import main.environment.Environment;
+
 
 public class BinaryExpr extends ASTList {
     public static final int TRUE = 1;
@@ -27,7 +30,7 @@ public class BinaryExpr extends ASTList {
       }
     }
     //如果是赋值
-    protected Object computeAssign(Environment env, Object rvalue) {
+    protected Object computeAssign0(Environment env, Object rvalue) {
       ASTree left = left();
       if (left instanceof Name ) {
         env.put(((Name) left).name(), rvalue);
@@ -77,4 +80,29 @@ public class BinaryExpr extends ASTList {
       else
         throw new AtujiException("bad operator", this);
     }
+    
+    //类
+    protected Object computeAssign(Environment env, Object rvalue) {
+      ASTree le = left();
+      if (le instanceof PrimaryExpr) {
+        PrimaryExpr p = (PrimaryExpr)le;
+          if (p.hasPostfix(0) && p.postfix(0) instanceof Dot) {
+              Object t = ((PrimaryExpr)le).evalSubExpr(env, 1);
+              if (t instanceof AtujiObject)
+                  return setField((AtujiObject)t, (Dot)p.postfix(0),
+                                  rvalue);
+          }
+      }
+      return computeAssign0(env, rvalue);
+  }
+  protected Object setField(AtujiObject obj, Dot expr, Object rvalue) {
+      String name = expr.name();
+      try {
+          obj.write(name, rvalue);
+          return rvalue;
+      } catch (AccessException e) {
+          throw new AtujiException("bad member access " + location()
+                                   + ": " + name);
+      }
+  }
 }

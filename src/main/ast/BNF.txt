@@ -30,3 +30,10 @@ program  : [ function | statement ] (";" | EOL)
  
 //闭包
 param  :"fun" param_list block | IDENTIFIER 
+
+//类
+member  : function | simple
+class_body : "{" [ member ] { (";" | EOL) [ member ] }  "}"
+defclass  : "class" IDENTIFIER [ "extends" IDENTIFIER ] class_body
+postfix  : "." IDENTIFIER | "(" [ args ] ")"
+program  : [ defclass | function | statement ] (";" | EOL)

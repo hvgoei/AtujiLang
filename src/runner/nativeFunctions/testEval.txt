@@ -1,0 +1,18 @@
+function fib (x) {
+    if x < 2 {
+        x   
+    } else {
+        fib(x - 1) + fib(x - 2)
+    }
+}
+
+t = currentTime()
+fib(10)
+print (currentTime() - t + "ms") 
+
+//test result
+=> fib
+=> 3562
+=> 55
+8ms
+=> 0              //这个0是print方法调用后返回的
