@@ -1,0 +1,37 @@
+function fib (x) {
+    if x < 2 {
+        x   
+    } else {
+        fib(x - 1) + fib(x - 2)
+    }
+}
+
+fib(5)
+fib(10) 
+//test result
+=> fib
+=> 5
+=> 55
+
+
+//闭包ClosureInterpreter
+a = fun (x) { x + 1}
+a(3)
+a(4)
+
+=> 4
+=> 5
+
+function add (x) {
+    fun () { x = x + 1}
+}
+
+a1 = add(0)
+a2 = add(0)
+a1()
+a1()
+a2()
+
+=> 1
+=> 2
+=> 1

@@ -1,3 +1,4 @@
+//basic BNF
 primary: "(" expr ")" | NUMBER | IDENTIFIER | STRING
 factor : "-" primary | primary
 expr   : factor {OP factor}
@@ -6,4 +7,26 @@ simple : expr
 statement : "if" expr block [ "else" block ]
             | "while" expr block
             | simple
-program  : [ statement ] (";" | EOL)            
+program  : [ statement ] (";" | EOL)   
+
+
+
+// 添加函数
+param  : IDENTIFIER
+params : param { "," param }
+param_list: "(" [ params ] ")"
+function : "function" IDENTIFIER param_list block
+args   : expr { "," expr}
+postfix: "(" [ args ] ")"
+primary: ("(" expr ")" | NUMBER | IDENTIFIER | STRING)  { postfix }
+factor : "-" primary | primary
+expr   : factor {OP factor}
+block  : "{" [ statement ] { (";" | EOL) [ tatement ]} "}"
+simple : expr [ args ]
+statement : "if" expr block [ "else" block ]
+            | "while" expr block
+            | simple
+program  : [ function | statement ] (";" | EOL)   
+ 
+//闭包
+param  :"fun" param_list block | IDENTIFIER 
