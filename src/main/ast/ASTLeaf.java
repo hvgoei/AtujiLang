@@ -1,11 +1,13 @@
 package main.ast;
 import java.util.Iterator;
 
+import main.basic.AtujiException;
 import main.basic.Token;
+import main.environment.Environment;
 
 import java.util.ArrayList;
 
-public class ASTLeaf implements ASTree {
+public class ASTLeaf extends ASTree {
     private static ArrayList<ASTree> empty = new ArrayList<ASTree>(); 
     protected Token token;
     public ASTLeaf(Token t) { token = t; }
@@ -15,4 +17,7 @@ public class ASTLeaf implements ASTree {
     public String toString() { return token.getText(); }
     public String location() { return "at line " + token.getLineNumber(); }
     public Token token() { return token; }
+    public Object eval(Environment env) {
+      throw new AtujiException("cannot eval: " + toString(), this);
+  }
 }

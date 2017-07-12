@@ -1,8 +1,12 @@
 package main.ast;
 import java.util.List;
+
+import main.basic.AtujiException;
+import main.environment.Environment;
+
 import java.util.Iterator;
 
-public class ASTList implements ASTree {
+public class ASTList extends ASTree {
     protected List<ASTree> children;
     public ASTList(List<ASTree> list) { children = list; }
     public ASTree child(int i) { return children.get(i); }
@@ -27,4 +31,7 @@ public class ASTList implements ASTree {
         }
         return null;
     }
+    public Object eval(Environment env) {
+      throw new AtujiException("cannot eval: " + toString(), this);
+  }
 }
