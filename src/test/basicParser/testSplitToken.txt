@@ -1,0 +1,17 @@
+i = 1
+even = 0
+sum = 0
+while i < 100 {
+    if i % 2 == 0 {
+        sum = sum + even 
+    }
+    i = i + 1
+}
+sum
+
+//text result:
+=> (i = 1)
+=> (even = 0)
+=> (sum = 0)
+=> (while (i < 100) ((if ((i % 2) == 0) ((sum = (sum + even))) else null) (i = (i + 1))))
+=> sum
