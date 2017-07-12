@@ -37,3 +37,11 @@ class_body : "{" [ member ] { (";" | EOL) [ member ] }  "}"
 defclass  : "class" IDENTIFIER [ "extends" IDENTIFIER ] class_body
 postfix  : "." IDENTIFIER | "(" [ args ] ")"
 program  : [ defclass | function | statement ] (";" | EOL)
+
+//数组
+elements : expr {"," expr }
+primary  :  ( 
+                "[" [ elements ] "]"  
+               |  "(" expr ")" | NUMBER | IDENTIFIER | STRING
+             ) { postfix }
+postfix  : "." IDENTIFIER | "(" [ args ] ")"

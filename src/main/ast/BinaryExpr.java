@@ -6,7 +6,6 @@ import main.basic.AtujiObject;
 import main.basic.AtujiObject.AccessException;
 import main.environment.Environment;
 
-
 public class BinaryExpr extends ASTList {
     public static final int TRUE = 1;
     public static final int FALSE = 0;
@@ -82,7 +81,7 @@ public class BinaryExpr extends ASTList {
     }
     
     //类
-    protected Object computeAssign(Environment env, Object rvalue) {
+    protected Object computeAssign1(Environment env, Object rvalue) {
       ASTree le = left();
       if (le instanceof PrimaryExpr) {
         PrimaryExpr p = (PrimaryExpr)le;
@@ -105,4 +104,25 @@ public class BinaryExpr extends ASTList {
                                    + ": " + name);
       }
   }
+  
+  //数组
+  protected Object computeAssign(Environment env, Object rvalue) {
+    ASTree le = left();
+    if (le instanceof PrimaryExpr) {
+      PrimaryExpr p = (PrimaryExpr)le;
+        if (p.hasPostfix(0) && p.postfix(0) instanceof ArrayRef) {
+            Object a = ((PrimaryExpr)le).evalSubExpr(env, 1);
+            if (a instanceof Object[]) {
+                ArrayRef aref = (ArrayRef)p.postfix(0);
+                Object index = ((ASTree)aref.index()).eval(env);
+                if (index instanceof Integer) {
+                    ((Object[])a)[(Integer)index] = rvalue;
+                    return rvalue;
+                }
+            }
+            throw new AtujiException("bad array access", this);
+        }
+    }
+    return computeAssign1(env, rvalue);
+}
 }
